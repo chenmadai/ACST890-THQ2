@@ -1,0 +1,33 @@
+#### Question 1 R code
+
+## question 1.a. 
+ff_data = read.table("~/Documents/sem1 2018/ACST890/THQ2/F-F_Research_Data_Factors_daily.txt",
+skip = 3, header = TRUE, row.names = NULL)
+head(ff_data)
+colnames(ff_data)[1] = "Date"
+head(ff_data)
+ff_data$Date = as.Date(strptime(ff_data$Date , format = "%Y%m%d"))
+head(ff_data)
+ff_data0713 = ff_data[ff_data$Date >= as.Date("2007-01-01") &ff_data$Date <=as.Date("2013-12-31"),]
+head(ff_data0713)
+ff_data0713 = na.omit(ff_data0713)
+
+## question 1.b.
+cal_mean = function(x, dates = TRUE) {
+num_cols = ncol(x)
+m_stocks = list()
+l = ifelse(dates == TRUE, 2, 1)
+j=1
+ for (i in 1:num_cols) {
+   m_stocks[[j]] = mean(x[, i]) 
+   j=j+1
+ }
+names(m_stocks) = colnames(x[, 1:num_cols]) 
+return(m_stocks)
+}
+
+data_stocks <- read.csv("~/Documents/sem1 2018/ACST890/THQ2/data_stocks.csv",header = TRUE)
+head(data_stocks)
+colnames(data_stocks)[1]="dates"
+cal_mean(data_stocks,dates=TRUE)
+mean(data_stocks$NASDAQ.AAL)
